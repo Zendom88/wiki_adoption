@@ -5,7 +5,9 @@
 @import url(./css/d3.parsets.css);
 @import url(./css/manual.css);
 </style>
-
+<head>
+	<link rel="icon" type="image/png" href="./media/favicon.ico">
+</head>
 <body>
 <h1>Wiki Adoption</h1>
 <p class="meta">Understanding about wiki technology adoption path
@@ -23,7 +25,7 @@
 			</div>
 		 	<div>DATA SOURCE:
 				<select id="inputFileOption">
-				  <option value="wiki4HE_decoded_H_L">Combined (1-3)</option>
+				  <option value="wiki4HE_decoded_H_L">Combined (1,3,5)</option>
 				  <option value="wiki4HE_decoded">Separated (1-5)</option>
 				</select>
 			</div>
@@ -118,12 +120,13 @@ function updateData () {
 	 // And stick the checked ones onto an array...
 	 if (checkedBoxes[i].checked) {
 		selectedDim.push(checkedBoxes[i].name);
-		console.log(checkedBoxes[i].name);
+		//console.log(checkedBoxes[i].name);
 	 }
 	}
 	chart = d3.parsets().dimensions(selectedDim);
-	d3.select("svg").remove();
+	d3.select("#parallelset01").remove();
 	var vis = d3.select("#vis").append("svg")
+		.attr("id","parallelset01")
 		.attr("width", chart.width())
 		.attr("height", chart.height());
 
