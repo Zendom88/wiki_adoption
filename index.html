@@ -127,8 +127,10 @@ function updateData () {
 	d3.select("#parallelset01").remove();
 	var vis = d3.select("#vis").append("svg")
 		.attr("id","parallelset01")
-		.attr("width", chart.width())
-		.attr("height", chart.height());
+		.attr("viewBox","0 0 "+chart.width()+ " "+ chart.height())
+		.attr("preserveAspectRatio","xMidYMid meet")
+		//.attr("width", chart.width())
+		//.attr("height", chart.height());
 
 	vis.datum(datasource).call(chart);
 
