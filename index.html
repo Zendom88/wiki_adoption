@@ -11,7 +11,7 @@
 <body>
 <h1>Wiki Adoption</h1>
 <p class="meta">Understanding about wiki technology adoption path
-
+<p class="meta">v1.0.1</p>
 <div class="container">
 
 	<div class="flex-container">
@@ -59,7 +59,7 @@ d3.select('#inputFileOption')
 	.on('change',function(){
 		console.log('running');
 		var newData = d3.select(this).property('value');
-		loadDimension(newData);
+		loadData(newData);
 	})
 
 function loadDimension(newDataPath) {
@@ -75,6 +75,7 @@ function loadDimension(newDataPath) {
 													.append("div")
 													.text(function(d) {return d;})
 													.insert("input")
+													.attr("id","checkboxform")
 													.attr({
 														type: "checkbox",
 														class: "shape",
@@ -83,7 +84,17 @@ function loadDimension(newDataPath) {
 													});
 
 											});
+
 }
+
+function loadData(newDataPath) {
+	  ndataPath = "./data/"+newDataPath+".csv";
+		var nav_canvas =	d3.csv(ndataPath, function(error, data) {
+												headerNames = d3.keys(data[0]);
+												datasource = data;
+											});
+}
+
 // Pass the checkbox name to the function
 function getCheckedBoxes(chkboxClassName) {
   var checkboxes = document.getElementsByClassName(chkboxClassName);
@@ -138,7 +149,6 @@ function updateData () {
 
 
 function updateAll() {
-	//loadDimension(dataPath[1]);
 	updateData();
 }
 
