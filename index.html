@@ -32,7 +32,7 @@
 			<div id="vis_nav"></div>
 		</nav>
 		<article class="article">
-			<div id="vis" ><noscript><img alt="Choose Dimension and click Update" src="parsets.png"></noscript></div>
+			<div id="vis"><span id = 'alt-words'>Choose Dimension and click Update</span></div>
 		</article>
 	</div>
  </div>
@@ -73,9 +73,12 @@ function loadDimension(newDataPath) {
 													.data(headerNames)
 													.enter()
 													.append("div")
+													.attr("id",(function(d) {
+															id = d.substr(0,d.indexOf("-")-1);
+															if (id.length==0) {	id = "PER";	};
+														return id;}))
 													.text(function(d) {return d;})
 													.insert("input")
-													.attr("id","checkboxform")
 													.attr({
 														type: "checkbox",
 														class: "shape",
@@ -122,8 +125,8 @@ function updateData () {
 	if (checkedBoxes == null) {
 		checkedBoxes = [];
 	}
-  if (checkedBoxes.length<2) {
-    alert("Please select >1 Dimension. You only selected " + checkedBoxes.length + " Dimension(s)" );
+  if (checkedBoxes.length<2 || checkedBoxes.length>4 ) {
+    alert("Please select 2 to 4 Dimensions. You have selected " + checkedBoxes.length + " Dimension(s)" );
     return null;
   }
 	selectedDim = []
@@ -143,6 +146,7 @@ function updateData () {
 		//.attr("width", chart.width())
 		//.attr("height", chart.height());
 
+	d3.select("#alt-words").remove();
 	vis.datum(datasource).call(chart);
 
 }

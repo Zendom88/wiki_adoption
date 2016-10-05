@@ -79,6 +79,7 @@ pre, code { font-family: "Menlo", monospace; }
 
 .article {
     text-align: left;
+    border:1px solid #ccc
 }
 
 header {background: black;color:white;}
@@ -104,4 +105,50 @@ footer {background: #aaa;color:white;}
     .nav {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
     .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
     footer {-webkit-order:3;order:3;}
+}
+
+/* Chart css outline */
+
+/* Chart nav menu */
+div#PER {
+   background-color:#EBF5CC;
+}
+div#PU {
+   background-color:#F5E0CC;
+}
+div#PEU {
+   background-color:#FFE8E8;
+}
+div#ENJ {
+   background-color:#F7FFE8;
+}
+div#Qu {
+   background-color:#EBF5CC;
+}
+div#Vis {
+   background-color:#F5E0CC;
+}
+div#Im {
+   background-color:#FFE8E8;
+}
+div#SA {
+   background-color:#F7FFE8;
+}
+div#Use {
+   background-color:#EBF5CC;
+}
+div#Pf {
+   background-color:#F5E0CC;
+}
+div#JR {
+   background-color:#FFE8E8;
+}
+div#BI {
+   background-color:#F7FFE8;
+}
+div#Inc {
+   background-color:#EBF5CC;
+}
+div#Exp {
+   background-color:#F5E0CC;
 }
