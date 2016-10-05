@@ -17,19 +17,23 @@
 	<div class="flex-container">
 		<nav class="nav">
 			<h3 style = "text-align:right";> Dimensions </h3>
-			<div id="option">
-				<input name="updateButton"
-					   type="button"
-					   value="Update"
-					   onclick="updateData()" />
+			<div id="buttons" style="padding-bottom:10px">
+			 <input class="btn" name="deselectButton"
+						type="button"
+						value="Clear"
+						onclick="deselectDim()" />
+			 <input class="btn" name="updateButton"
+					 type="button"
+					 value="Update"
+					 onclick="updateData()" />
 			</div>
-		 	<div>DATA SOURCE:
+			<div>DATA SOURCE:
 				<select id="inputFileOption">
 				  <option value="wiki4HE_decoded_H_L">Combined (1,3,5)</option>
 				  <option value="wiki4HE_decoded">Separated (1-5)</option>
 				</select>
 			</div>
-			<div id="vis_nav"></div>
+			<div id="vis_nav">	</div>
 		</nav>
 		<article class="article">
 			<div id="vis"><span id = 'alt-words'>Choose Dimension and click Update</span></div>
@@ -151,7 +155,9 @@ function updateData () {
 
 }
 
-
+function deselectDim() {
+	d3.selectAll('.shape').property('checked', false);
+}
 function updateAll() {
 	updateData();
 }
