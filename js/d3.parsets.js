@@ -433,11 +433,21 @@
 
     function showTooltip(html) {
       var m = d3.mouse(body.node());
-      tooltip
-          .style("display", null)
-          .style("left", m[0] + 30 + "px")
-          .style("top", m[1] - 20 + "px")
-          .html(html);
+      var docSize = document.documentElement.clientWidth;
+      if (m[0]>docSize/2) {
+        tooltip
+            .style("display", null)
+            .style("left", m[0] - 100 + "px")
+            .style("top", m[1] + 10 + "px")
+            .html(html);
+      } else {
+        tooltip
+            .style("display", null)
+            .style("left", m[0] + 20 + "px")
+            .style("top", m[1] + 10 + "px")
+            .html(html);
+      }
+
     }
 
     function hideTooltip() {
