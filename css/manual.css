@@ -1,12 +1,12 @@
 body {
-  font-family: sans-serif;
+  font-family: Raleway,sans-serif;
   font-size: 16px;
   margin: 1em auto;
   position: relative;
 }
 h1, h2, .dimension text {
   text-align: center;
-  font-family: "PT Sans", Helvetica;
+  font-family: Raleway,"PT Sans", Helvetica;
   font-weight: 300;
 }
 h1 {
@@ -84,7 +84,7 @@ pre, code { font-family: "Menlo", monospace; }
 
 header {background: black;color:white;}
 footer {background: #aaa;color:white;}
-.nav {background:#eee;}
+.nav {background:transparent;}
 
 .nav ul {
     list-style-type: none;
