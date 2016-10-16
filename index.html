@@ -4,6 +4,8 @@
 <style>
 @import url(./css/d3.parsets.css);
 @import url(./css/manual.css);
+@import url(./css/chart.css);
+@import url(./css/dc.css);
 </style>
 <head>
 	<link rel="icon" type="image/png" href="./media/favicon.ico">
@@ -12,159 +14,65 @@
 </head>
 <body>
 <h1>Wiki Adoption</h1>
-<p class="meta">Understanding about wiki technology adoption path
-<p class="meta">v1.0.2</p>
+<p class="meta">To start, please click on any 2 dimension names on the left-handside panel
+<p class="meta">v2.0</p>
 <div class="container">
-
 	<div class="flex-container">
 		<nav class="nav">
-			<h3 style = "text-align:right";> Dimensions </h3>
-			<div id="buttons" style="padding-bottom:10px">
-			 <input class="btn" name="deselectButton"
-						type="button"
-						value="Clear"
-						onclick="deselectDim()" />
-			 <input class="btn" name="updateButton"
-					 type="button"
-					 value="Update"
-					 onclick="updateData()" />
+			<div><h2> Control Panel </h2></div>
+			<div id="controlPanel">
+				<div id="buttons" style="padding-bottom:10px">
+				 <input class="btn" name="deselectButton"
+							type="button"
+							value="Clear"
+							onclick="deselectDim()" />
+				 <input class="btn" name="updateButton"
+						 type="button"
+						 value="Update"
+						 onclick="updateAll()" />
+				</div>
+				<!--
+				<div>DATA SOURCE:
+					<select id="inputFileOption">
+					  <option value="wiki4HE_decoded_H_L">Combined (1,3,5)</option>
+					  <option value="wiki4HE_decoded">Separated (1-5)</option>
+					</select>
+				</div>
+			-->
 			</div>
-			<div>DATA SOURCE:
-				<select id="inputFileOption">
-				  <option value="wiki4HE_decoded_H_L">Combined (1,3,5)</option>
-				  <option value="wiki4HE_decoded">Separated (1-5)</option>
-				</select>
+			<div style="overflow-y: auto;max-height: 600px;">
+				<div><h2> Profile dimensions </h2></div>
+				<div id="profileDim"></div>
+				<div><h2> Response dimensions </h2></div>
+				<div id="figure" style="margin-bottom: 50px;"></div>
 			</div>
-			<div id="vis_nav">	</div>
 		</nav>
-		<article class="article">
+		<article class="article" style="overflow-y: auto;max-height: 600px;">
+			<div><h2>Paraset Chart</h2></div>
 			<div id="vis"><span id = 'alt-words'>Choose Dimension and click Update</span></div>
+			<div><h2>Frequency</h2></div>
+			<div id="row-chart-list"></div>
 		</article>
 	</div>
  </div>
+</body>
 
-
-<script src="./js/d3.min.js"></script>
+<script src="./js/d3.js"></script>
 <script src="./js/d3.parsets.js"></script>
 <script src="./js/highlight.min.js"></script>
+<script src="./js/crossfilter.js"></script>
+<script src="./js/dc.js"></script>
+<script src="./js/wiki.v2.chart.js"></script>
+<script src="./js/diverging.js"></script>
+<script src="./js/profile.js"></script>
 
-<script>
-var firstTimeLoad = true;
-var headerNames;
-var chart = d3.parsets();
-var partition = d3.layout.partition()
-    .sort(null)
-    .size([chart.width(), chart.height() * 5 / 4])
-    .children(function(d) { return d.children ? d3.values(d.children) : null; })
-    .value(function(d) { return d.count; });
 
-var selectedDim = [];
-var dataPath = ["wiki4HE_decoded_H_L","wiki4HE_decoded"];
-
-d3.select('#inputFileOption')
-	.on('change',function(){
-		console.log('running');
-		var newData = d3.select(this).property('value');
-		loadData(newData);
-	})
-
-function loadDimension(newDataPath) {
-	  ndataPath = "./data/"+newDataPath+".csv";
-		var nav_canvas =	d3.csv(ndataPath, function(error, data) {
-												headerNames = d3.keys(data[0]);
-												datasource = data;
-												// Create the shape selectors
-												var form = d3.select("#vis_nav").append("form");
-												labels = form.selectAll("label")
-													.data(headerNames)
-													.enter()
-													.append("div")
-													.attr("id",(function(d) {
-															id = d.substr(0,d.indexOf("-")-1);
-															if (id.length==0) {	id = "PER";	};
-														return id;}))
-													.text(function(d) {return d;})
-													.insert("input")
-													.attr({
-														type: "checkbox",
-														class: "shape",
-														name: function(d) {return d;},
-														value: function(d, i) {return i;}
-													});
-
-											});
-
-}
-
-function loadData(newDataPath) {
-	  ndataPath = "./data/"+newDataPath+".csv";
-		var nav_canvas =	d3.csv(ndataPath, function(error, data) {
-												headerNames = d3.keys(data[0]);
-												datasource = data;
-											});
-}
-
-// Pass the checkbox name to the function
-function getCheckedBoxes(chkboxClassName) {
-  var checkboxes = document.getElementsByClassName(chkboxClassName);
-  var checkboxesChecked = [];
-  // loop over them all
-  for (var i=0; i<checkboxes.length; i++) {
-     // And stick the checked ones onto an array...
-     if (checkboxes[i].checked) {
-        checkboxesChecked.push(checkboxes[i]);
-     }
-  }
-  // Return the array if it is non-empty, or null
-  return checkboxesChecked.length > 0 ? checkboxesChecked : null;
-}
-
-// Update Graph when dimension selection is changed
-function updateData () {
-	// Call as
-	if (firstTimeLoad) {
-		firstTimeLoad = false;
-		return null;
+<script type="text/javascript">
+	function updateAll () {
+		updateData();
 	}
-
-	var checkedBoxes = getCheckedBoxes("shape");
-	if (checkedBoxes == null) {
-		checkedBoxes = [];
+	function deselectDim() {
+		selectedVar = [];
+		d3.selectAll(".selected").attr("class","unselected");
 	}
-  if (checkedBoxes.length<2 || checkedBoxes.length>4 ) {
-    alert("Please select 2 to 4 Dimensions. You have selected " + checkedBoxes.length + " Dimension(s)" );
-    return null;
-  }
-	selectedDim = []
-	for (var i=0; i<checkedBoxes.length; i++) {
-	 // And stick the checked ones onto an array...
-	 if (checkedBoxes[i].checked) {
-		selectedDim.push(checkedBoxes[i].name);
-		//console.log(checkedBoxes[i].name);
-	 }
-	}
-	chart = d3.parsets().dimensions(selectedDim);
-	d3.select("#parallelset01").remove();
-	var vis = d3.select("#vis").append("svg")
-		.attr("id","parallelset01")
-		.attr("viewBox","0 0 "+chart.width()+ " "+ chart.height())
-		.attr("preserveAspectRatio","xMidYMid meet")
-		//.attr("width", chart.width())
-		//.attr("height", chart.height());
-
-	d3.select("#alt-words").remove();
-	vis.datum(datasource).call(chart);
-
-}
-
-function deselectDim() {
-	d3.selectAll('.shape').property('checked', false);
-}
-function updateAll() {
-	updateData();
-}
-
-loadDimension(dataPath[0]);
-updateAll();
-
 </script>

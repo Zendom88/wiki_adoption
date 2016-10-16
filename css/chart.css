@@ -1,0 +1,17 @@
+#bar-chart-list .x.axis text {
+    text-anchor: end !important;
+    transform: rotate(-20deg);
+}
+
+
+ .unselected {
+  color: black;
+  font-size: 100%;
+}
+
+ .selected {
+  color: red !important;
+  font-weight: bold;
+  font-size: 110%;
+  text-shadow: #EEEE00 0 0 10px;
+}

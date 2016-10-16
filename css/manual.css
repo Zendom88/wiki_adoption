@@ -79,12 +79,16 @@ pre, code { font-family: "Menlo", monospace; }
 
 .article {
     text-align: left;
-    border:1px solid #ccc
+    border:1px solid #ccc;
+    width: 50%;
 }
 
 header {background: black;color:white;}
 footer {background: #aaa;color:white;}
-.nav {background:transparent;}
+.nav {
+  background:transparent;
+  width:35%;
+}
 
 .nav ul {
     list-style-type: none;
@@ -101,7 +105,7 @@ footer {background: #aaa;color:white;}
 }
 
 
-@media all and (min-width: 600px) {
+@media all and (min-width: 500px) {
     .nav {text-align:left;-webkit-flex: 1 auto;flex:1 auto;-webkit-order:1;order:1;}
     .article {-webkit-flex:5 0px;flex:5 0px;-webkit-order:2;order:2;}
     footer {-webkit-order:3;order:3;}
